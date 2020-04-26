@@ -1,9 +1,13 @@
 package com.dlanca.cursomc;
 
 import com.dlanca.cursomc.domain.Category;
+import com.dlanca.cursomc.domain.City;
 import com.dlanca.cursomc.domain.Product;
+import com.dlanca.cursomc.domain.State;
 import com.dlanca.cursomc.repositories.CategoryRepository;
+import com.dlanca.cursomc.repositories.CityRepository;
 import com.dlanca.cursomc.repositories.ProductRepository;
+import com.dlanca.cursomc.repositories.StateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -13,6 +17,11 @@ import java.util.Arrays;
 
 @SpringBootApplication
 public class Application implements CommandLineRunner {
+    @Autowired
+    private CityRepository cityRepository;
+
+    @Autowired
+    private StateRepository stateRepository;
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -40,9 +49,23 @@ public class Application implements CommandLineRunner {
         p2.getCategories().addAll(Arrays.asList(cat1, cat2));
         p3.getCategories().addAll(Arrays.asList(cat1));
 
-
         categoryRepository.save(Arrays.asList(cat1, cat2));
         productRepository.save(Arrays.asList(p1, p2, p3));
+
+
+        State s1 = new State(null, "Sao Paulo");
+        State s2 = new State(null, "Minas Gerais");
+
+
+        City c1 = new City(null, "Sao Paulo", s1);
+        City c2 = new City(null, "Campina", s1);
+        City c3 = new City(null, "Mariana", s2);
+
+        s1.getCities().addAll(Arrays.asList(c1, c2));
+        s2.getCities().addAll(Arrays.asList(c3));
+
+        stateRepository.save(Arrays.asList(s1, s2));
+        cityRepository.save(Arrays.asList(c1, c2,c3));
 
     }
 }
