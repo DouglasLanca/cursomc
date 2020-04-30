@@ -1,13 +1,8 @@
 package com.dlanca.cursomc;
 
-import com.dlanca.cursomc.domain.Category;
-import com.dlanca.cursomc.domain.City;
-import com.dlanca.cursomc.domain.Product;
-import com.dlanca.cursomc.domain.State;
-import com.dlanca.cursomc.repositories.CategoryRepository;
-import com.dlanca.cursomc.repositories.CityRepository;
-import com.dlanca.cursomc.repositories.ProductRepository;
-import com.dlanca.cursomc.repositories.StateRepository;
+import com.dlanca.cursomc.domain.*;
+import com.dlanca.cursomc.domain.enums.CustomerType;
+import com.dlanca.cursomc.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -28,6 +23,12 @@ public class Application implements CommandLineRunner {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private CustomerRepository customerRepository;
+
+    @Autowired
+    private AddressRepository addressRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
@@ -67,5 +68,16 @@ public class Application implements CommandLineRunner {
         stateRepository.save(Arrays.asList(s1, s2));
         cityRepository.save(Arrays.asList(c1, c2,c3));
 
+        Customer custom = new Customer(null, "maria", "maria@gmail", "123123123", CustomerType.PERSON);
+        custom.getPhoneNumbers().addAll(Arrays.asList("0800", "0900"));
+
+        Address address1 = new Address(null, "rua dos guaranis", "564", "apto 1203", "centro", "30120040", custom, c1);
+        Address address2 = new Address(null, "rua dos chavoso", "700", "apto 103", "sem ser o centro", "30120asd", custom, c2);
+
+        custom.getAddress().addAll(Arrays.asList(address1, address2));
+
+        customerRepository.save(Arrays.asList(custom));
+        addressRepository.save(Arrays.asList(address1, address2));
+    
     }
 }
