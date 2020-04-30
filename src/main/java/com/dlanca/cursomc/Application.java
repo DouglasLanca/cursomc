@@ -78,6 +78,6 @@ public class Application implements CommandLineRunner {
 
         customerRepository.save(Arrays.asList(custom));
         addressRepository.save(Arrays.asList(address1, address2));
-    
+
     }
 }

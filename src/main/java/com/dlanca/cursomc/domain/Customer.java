@@ -19,6 +19,7 @@ public class Customer implements Serializable {
     private String cpfOrCnpj;
     private Integer customerType;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "customer")
     private List<Address> address = new ArrayList<>();
 

@@ -1,5 +1,7 @@
 package com.dlanca.cursomc.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -17,6 +19,7 @@ public class Address implements Serializable {
     private String neigborhood;
     private String cep;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
