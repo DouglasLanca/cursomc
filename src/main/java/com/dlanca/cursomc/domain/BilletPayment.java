@@ -1,6 +1,8 @@
 package com.dlanca.cursomc.domain;
 
 import com.dlanca.cursomc.domain.enums.PaymentStatus;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.Entity;
 import java.util.Date;
 
@@ -8,7 +10,11 @@ import java.util.Date;
 public class BilletPayment extends Payment {
 
     private static final long serialVersionUID = 1L;
+
+    @JsonFormat(pattern = "dd/mm/yyyy")
     private Date startDate;
+
+    @JsonFormat(pattern = "dd/mm/yyyy")
     private Date endDate;
 
     public BilletPayment() {

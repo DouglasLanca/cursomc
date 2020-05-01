@@ -1,5 +1,7 @@
 package com.dlanca.cursomc.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import java.io.Serializable;
@@ -9,6 +11,7 @@ import java.util.Objects;
 public class RequestedProduct implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonIgnore
     @EmbeddedId
     private RequestedProductPK id = new RequestedProductPK();
 
@@ -27,6 +30,7 @@ public class RequestedProduct implements Serializable {
         this.price = price;
     }
 
+    @JsonIgnore
     public Order getOrder(){
         return id.getOrder();
     }

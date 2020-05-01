@@ -1,6 +1,7 @@
 package com.dlanca.cursomc.domain;
 
 import com.dlanca.cursomc.domain.enums.PaymentStatus;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -15,6 +16,7 @@ public abstract class Payment implements Serializable {
     private Integer id;
     private Integer status;
 
+    @JsonBackReference
     @OneToOne
     @JoinColumn(name = "order_id")
     @MapsId

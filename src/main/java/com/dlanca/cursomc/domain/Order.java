@@ -1,6 +1,8 @@
 package com.dlanca.cursomc.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,12 +16,14 @@ public class Order implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @JsonFormat(pattern = "dd/mm/yyyy HH:mm")
     private Date date;
 
+    @JsonManagedReference
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "order")
     private Payment payment;
 
-    @JsonBackReference
+    @JsonManagedReference
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
@@ -42,13 +46,6 @@ public class Order implements Serializable {
         this.deliveryAddres = deliveryAddres;
     }
 
-    public List<Order> getOrders(){
-        List<Order> listOfOrders = new ArrayList<>();
-        for (RequestedProduct x : requestedProducts){
-            listOfOrders.add(x.getOrder());
-        }
-        return listOfOrders;
-    }
 
     public Set<RequestedProduct> getRequestedProducts() {
         return requestedProducts;

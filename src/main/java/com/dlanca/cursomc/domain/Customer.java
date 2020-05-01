@@ -1,6 +1,7 @@
 package com.dlanca.cursomc.domain;
 
 import com.dlanca.cursomc.domain.enums.CustomerType;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -27,7 +28,7 @@ public class Customer implements Serializable {
     @CollectionTable(name = "PHONE_NUMBERS")
     private Set<String> phoneNumbers = new HashSet<>();
 
-    @JsonManagedReference
+    @JsonBackReference
     @OneToMany(mappedBy = "customer")
     private List<Order> orders = new ArrayList<>();
 
