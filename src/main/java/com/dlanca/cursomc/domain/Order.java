@@ -4,8 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name="ORDER_TABLE")
@@ -29,6 +28,10 @@ public class Order implements Serializable {
     @JoinColumn(name = "addres_id")
     private Address deliveryAddres;
 
+//    items
+    @OneToMany(mappedBy = "id.order")
+    private Set<RequestedProduct> requestedProducts = new HashSet<>();
+
     public Order() {
     }
 
@@ -37,6 +40,22 @@ public class Order implements Serializable {
         this.date = date;
         this.customer = customer;
         this.deliveryAddres = deliveryAddres;
+    }
+
+    public List<Order> getOrders(){
+        List<Order> listOfOrders = new ArrayList<>();
+        for (RequestedProduct x : requestedProducts){
+            listOfOrders.add(x.getOrder());
+        }
+        return listOfOrders;
+    }
+
+    public Set<RequestedProduct> getRequestedProducts() {
+        return requestedProducts;
+    }
+
+    public void setRequestedProducts(Set<RequestedProduct> requestedProducts) {
+        this.requestedProducts = requestedProducts;
     }
 
     public Integer getId() {

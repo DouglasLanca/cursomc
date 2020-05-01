@@ -38,6 +38,8 @@ public class Application implements CommandLineRunner {
     @Autowired
     private PaymentRepository paymentRepository;
 
+    @Autowired
+    private RequestedProductRepository requestedProductRepository;
 
 
     public static void main(String[] args) {
@@ -104,6 +106,19 @@ public class Application implements CommandLineRunner {
 
         orderRepository.save(Arrays.asList(order1, order2));
         paymentRepository.save(Arrays.asList(pg1, pg2));
+
+        RequestedProduct rp1 = new RequestedProduct(order1, p1, 0.00, 1, 2000.00);
+        RequestedProduct rp2 = new RequestedProduct(order1, p3, 0.00, 2, 80.00);
+        RequestedProduct rp3 = new RequestedProduct(order2, p2, 100.00, 1, 800.00);
+
+        order1.getRequestedProducts().addAll(Arrays.asList(rp1, rp2));
+        order2.getRequestedProducts().addAll(Arrays.asList(rp3));
+
+        p1.getRequestedProducts().addAll(Arrays.asList(rp1));
+        p2.getRequestedProducts().addAll(Arrays.asList(rp3));
+        p3.getRequestedProducts().addAll(Arrays.asList(rp2));
+
+        requestedProductRepository.save(Arrays.asList(rp1, rp2, rp3));
 
     }
 }
