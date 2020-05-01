@@ -27,6 +27,11 @@ public class Customer implements Serializable {
     @CollectionTable(name = "PHONE_NUMBERS")
     private Set<String> phoneNumbers = new HashSet<>();
 
+    @JsonManagedReference
+    @OneToMany(mappedBy = "customer")
+    private List<Order> orders = new ArrayList<>();
+
+
     public Customer() {
     }
 
@@ -96,6 +101,18 @@ public class Customer implements Serializable {
 
     public void setPhoneNumbers(Set<String> phoneNumbers) {
         this.phoneNumbers = phoneNumbers;
+    }
+
+    public void setCustomerType(Integer customerType) {
+        this.customerType = customerType;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 
     @Override

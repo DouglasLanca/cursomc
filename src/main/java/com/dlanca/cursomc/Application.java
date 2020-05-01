@@ -2,12 +2,14 @@ package com.dlanca.cursomc;
 
 import com.dlanca.cursomc.domain.*;
 import com.dlanca.cursomc.domain.enums.CustomerType;
+import com.dlanca.cursomc.domain.enums.PaymentStatus;
 import com.dlanca.cursomc.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 @SpringBootApplication
@@ -29,6 +31,14 @@ public class Application implements CommandLineRunner {
 
     @Autowired
     private AddressRepository addressRepository;
+
+    @Autowired
+    private OrderRepository orderRepository;
+
+    @Autowired
+    private PaymentRepository paymentRepository;
+
+
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
@@ -78,6 +88,22 @@ public class Application implements CommandLineRunner {
 
         customerRepository.save(Arrays.asList(custom));
         addressRepository.save(Arrays.asList(address1, address2));
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+        Order order1 = new Order(null, sdf.parse("30/09/2017 10:32"), custom, address1);
+        Order order2 = new Order(null, sdf.parse("10/10/2017 19:35"), custom, address2);
+
+        Payment pg1 = new CardPayment(null, PaymentStatus.COMPLETED, order1, 6);
+        order1.setPayment(pg1);
+
+        Payment pg2 = new BilletPayment(null, PaymentStatus.PENDING, order2, sdf.parse("20/10/2017 00:00"), null);
+        order2.setPayment(pg2);
+
+        custom.getOrders().addAll(Arrays.asList(order1, order2));
+
+        orderRepository.save(Arrays.asList(order1, order2));
+        paymentRepository.save(Arrays.asList(pg1, pg2));
 
     }
 }
