@@ -1,6 +1,7 @@
 package com.dlanca.cursomc.resources;
 
 import com.dlanca.cursomc.domain.Category;
+import com.dlanca.cursomc.dto.CategoryDTO;
 import com.dlanca.cursomc.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value="/categories")
@@ -41,5 +44,12 @@ public class CategoryResource {
     public ResponseEntity<Category> delete(@PathVariable Integer id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity<List<CategoryDTO>> findAll(){
+        List<Category> list = service.findAll();
+        List<CategoryDTO> listDto = list.stream().map(CategoryDTO::new).collect(Collectors.toList());
+        return ResponseEntity.ok().body(listDto);
     }
 }
