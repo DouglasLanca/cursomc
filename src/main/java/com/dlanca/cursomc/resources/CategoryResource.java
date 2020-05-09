@@ -4,6 +4,7 @@ import com.dlanca.cursomc.domain.Category;
 import com.dlanca.cursomc.dto.CategoryDTO;
 import com.dlanca.cursomc.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -52,4 +53,17 @@ public class CategoryResource {
         List<CategoryDTO> listDto = list.stream().map(CategoryDTO::new).collect(Collectors.toList());
         return ResponseEntity.ok().body(listDto);
     }
+
+    @RequestMapping(value = "/page", method = RequestMethod.GET)
+    public ResponseEntity<Page<CategoryDTO>> findaPage(
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
+            @RequestParam(value = "orderBy", defaultValue = "name") String orderBy,
+            @RequestParam(value = "direction", defaultValue = "DESC") String direction){
+        Page<Category> list = service.findPage(page, linesPerPage, orderBy, direction);
+        Page<CategoryDTO> listDto = list.map(CategoryDTO::new);
+        return ResponseEntity.ok().body(listDto);
+    }
+
+
 }
