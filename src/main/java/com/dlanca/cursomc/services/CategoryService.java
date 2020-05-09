@@ -1,6 +1,7 @@
 package com.dlanca.cursomc.services;
 
 import com.dlanca.cursomc.domain.Category;
+import com.dlanca.cursomc.dto.CategoryDTO;
 import com.dlanca.cursomc.repositories.CategoryRepository;
 import com.dlanca.cursomc.services.exceptions.DataIntegrityException;
 import com.dlanca.cursomc.services.exceptions.ObjectNotFoundException;
@@ -55,5 +56,9 @@ public class CategoryService {
     public Page<Category> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
         PageRequest pageRequest = new PageRequest(page, linesPerPage, Direction.valueOf(direction), orderBy);
         return repo.findAll(pageRequest);
+    }
+
+    public Category fromDTO(CategoryDTO objDto){
+        return new Category(objDto.getId(), objDto.getName());
     }
 }
