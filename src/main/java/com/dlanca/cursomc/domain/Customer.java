@@ -41,7 +41,7 @@ public class Customer implements Serializable {
         this.name = name;
         this.email = email;
         this.cpfOrCnpj = cpfOrCnpj;
-        this.customerType = customerType.getCod();
+        this.customerType = (customerType == null) ? null : customerType.getCod();
     }
 
     public static long getSerialVersionUID() {
