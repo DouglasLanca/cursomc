@@ -1,6 +1,5 @@
 package com.dlanca.cursomc.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -17,7 +16,7 @@ public class Address implements Serializable {
     private String street;
     private String number;
     private String complement;
-    private String neigborhood;
+    private String neighborhood;
     private String cep;
 
     @JsonIgnore
@@ -32,12 +31,12 @@ public class Address implements Serializable {
     public Address() {
     }
 
-    public Address(Integer id, String street, String number, String complement, String neigborhood, String cep, Customer customer, City city) {
+    public Address(Integer id, String street, String number, String complement, String neighborhood, String cep, Customer customer, City city) {
         this.id = id;
         this.street = street;
         this.number = number;
         this.complement = complement;
-        this.neigborhood = neigborhood;
+        this.neighborhood = neighborhood;
         this.cep = cep;
         this.customer = customer;
         this.city = city;
@@ -79,12 +78,12 @@ public class Address implements Serializable {
         this.complement = complement;
     }
 
-    public String getNeigborhood() {
-        return neigborhood;
+    public String getNeighborhood() {
+        return neighborhood;
     }
 
-    public void setNeigborhood(String neigborhood) {
-        this.neigborhood = neigborhood;
+    public void setNeighborhood(String neighborhood) {
+        this.neighborhood = neighborhood;
     }
 
     public String getCep() {

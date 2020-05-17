@@ -2,13 +2,16 @@ package com.dlanca.cursomc.resources;
 
 import com.dlanca.cursomc.domain.Customer;
 import com.dlanca.cursomc.dto.CustomerDTO;
+import com.dlanca.cursomc.dto.NewCustomerDTO;
 import com.dlanca.cursomc.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -55,6 +58,15 @@ public class CustomerResource {
         Page<Customer> list = service.findPage(page, linesPerPage, orderBy, direction);
         Page<CustomerDTO> listDto = list.map(CustomerDTO::new);
         return ResponseEntity.ok().body(listDto);
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<Void> insert(@Valid @RequestBody NewCustomerDTO objDto){
+        Customer obj = service.fromDTO(objDto);
+        obj = service.insert(obj);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}").buildAndExpand(obj.getId()).toUri();
+        return ResponseEntity.created(uri).build();
     }
 
 }
