@@ -1,6 +1,7 @@
 package com.dlanca.cursomc.services;
 
 import com.dlanca.cursomc.domain.Category;
+import com.dlanca.cursomc.domain.Customer;
 import com.dlanca.cursomc.dto.CategoryDTO;
 import com.dlanca.cursomc.repositories.CategoryRepository;
 import com.dlanca.cursomc.services.exceptions.DataIntegrityException;
@@ -36,8 +37,12 @@ public class CategoryService {
     }
 
     public Category update(Category obj){
-        find(obj.getId());
-        return repo.save(obj);
+        Category newObj = find(obj.getId());
+        updateData(newObj, obj);
+        return repo.save(newObj);
+    }
+    private void updateData(Category newObj, Category obj) {
+        newObj.setName(obj.getName());
     }
 
     public void delete(Integer id){

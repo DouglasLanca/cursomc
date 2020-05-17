@@ -1,7 +1,6 @@
 package com.dlanca.cursomc.services;
 
 import com.dlanca.cursomc.domain.Customer;
-import com.dlanca.cursomc.domain.Customer;
 import com.dlanca.cursomc.dto.CustomerDTO;
 import com.dlanca.cursomc.repositories.CustomerRepository;
 import com.dlanca.cursomc.services.exceptions.DataIntegrityException;
