@@ -1,21 +1,40 @@
 package com.dlanca.cursomc.dto;
 
+import com.dlanca.cursomc.services.validation.CustomerInsert;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
+
 import java.io.Serializable;
 
+@CustomerInsert
 public class NewCustomerDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @NotEmpty(message = "preenchimento obrigatório")
+    @Length(min = 5, max = 80, message = "O tamanho deve ser entre 5 e 80 characteres")
     private String name;
+
+    @NotEmpty(message = "preenchimento obrigatório")
+    @Email(message = "email inválido")
     private String email;
+
+    @NotEmpty(message = "preenchimento obrigatório")
     private String cpfOrCnpj;
     private Integer customerType;
 
+    @NotEmpty(message = "preenchimento obrigatório")
     private String street;
+
+    @NotEmpty(message = "preenchimento obrigatório")
     private String number;
     private String complement;
     private String neighborhood;
+
+    @NotEmpty(message = "preenchimento obrigatório")
     private String cep;
 
+    @NotEmpty(message = "preenchimento obrigatório")
     private String phone1;
     private String phone2;
     private String phone3;
