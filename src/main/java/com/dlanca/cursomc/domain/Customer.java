@@ -106,9 +106,6 @@ public class Customer implements Serializable {
         this.phoneNumbers = phoneNumbers;
     }
 
-    public void setCustomerType(Integer customerType) {
-        this.customerType = customerType;
-    }
 
     public List<Order> getOrders() {
         return orders;

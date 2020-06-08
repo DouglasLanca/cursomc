@@ -34,6 +34,14 @@ public class RequestedProduct implements Serializable {
         return (price - discount) * quantity;
     }
 
+    public void setOrder(Order obj){
+        id.setOrder(obj);
+    }
+
+    public void setProduct(Product obj){
+        id.setProduct(obj);
+    }
+
     @JsonIgnore
     public Order getOrder(){
         return id.getOrder();
