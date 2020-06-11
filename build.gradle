@@ -16,7 +16,7 @@ buildscript {
 }
 
 apply plugin: 'java'
-apply plugin: 'spring-boot'
+apply plugin: 'org.springframework.boot'
 
 sourceCompatibility = 1.8
 
@@ -28,6 +28,19 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-data-rest'
     compile 'org.springframework.boot:spring-boot-starter-data-jpa'
     compile 'com.h2database:h2'
-    runtimeOnly 'mysql:mysql-connector-java'
+    compile 'mysql:mysql-connector-java'
     testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+task stage(type: Copy, dependsOn: [clean, build]) {
+    from jar.archivePath
+    into project.rootDir
+    rename {
+        'cursofullstack.jar'
+    }
+}
+stage.mustRunAfter(clean)
+
+clean << {
+    project.file('cursofullstack.jar').delete()
 }
