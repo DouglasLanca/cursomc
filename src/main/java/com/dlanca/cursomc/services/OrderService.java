@@ -1,6 +1,7 @@
 package com.dlanca.cursomc.services;
 
 import com.dlanca.cursomc.domain.BilletPayment;
+import com.dlanca.cursomc.domain.Customer;
 import com.dlanca.cursomc.domain.Order;
 import com.dlanca.cursomc.domain.RequestedProduct;
 import com.dlanca.cursomc.domain.enums.PaymentStatus;
@@ -32,6 +33,9 @@ public class OrderService {
     @Autowired
     private RequestedProductRepository requestedProductRepository;
 
+    @Autowired
+    private CustomerService customerService;
+
     public Order searchOrder(Integer id){
         Order obj = repo.findOne(id);
         if (obj == null){
@@ -51,14 +55,18 @@ public class OrderService {
             BilletPayment payment = (BilletPayment) obj.getPayment();
             billetPaymentService.fillBilletPayment(payment, obj.getDate());
         }
+        obj.setCustomer(customerService.find(obj.getCustomer().getId()));
+
         obj = repo.save(obj);
         paymentRepository.save(obj.getPayment());
         for (RequestedProduct product: obj.getRequestedProducts()){
             product.setDiscount(0.0);
-            product.setPrice(productService.find(product.getProduct().getId()).getPrice());
+            product.setProduct(productService.find(product.getProduct().getId()));
+            product.setPrice(product.getProduct().getPrice());
             product.setOrder(obj);
         }
         requestedProductRepository.save(obj.getRequestedProducts());
+        System.out.println(obj);
         return obj;
     }
 }
