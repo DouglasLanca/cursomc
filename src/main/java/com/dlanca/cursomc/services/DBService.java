@@ -3,6 +3,7 @@ package com.dlanca.cursomc.services;
 import com.dlanca.cursomc.domain.*;
 import com.dlanca.cursomc.domain.enums.CustomerType;
 import com.dlanca.cursomc.domain.enums.PaymentStatus;
+import com.dlanca.cursomc.domain.enums.Role;
 import com.dlanca.cursomc.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -107,13 +108,19 @@ public class DBService {
         Customer custom = new Customer(null, "maria", "douglasvandersar@gmail.com", "123123123", CustomerType.PERSON, bCryptPasswordEncoder.encode("123"));
         custom.getPhoneNumbers().addAll(Arrays.asList("0800", "0900"));
 
+        Customer custom2 = new Customer(null, "ana", "douglasvandersar2@gmail.com", "123123123", CustomerType.PERSON, bCryptPasswordEncoder.encode("123"));
+        custom.getPhoneNumbers().addAll(Arrays.asList("213123", "12131"));
+        custom2.addRole(Role.ADMIN);
+
         Address address1 = new Address(null, "rua dos guaranis", "564", "apto 1203", "centro", "30120040", custom, c1);
         Address address2 = new Address(null, "rua dos chavoso", "700", "apto 103", "sem ser o centro", "30120asd", custom, c2);
+        Address address3 = new Address(null, "rua dos piseiro", "420", null, "afastado do centro", "30120asd", custom2, c2);
 
         custom.getAddress().addAll(Arrays.asList(address1, address2));
+        custom2.getAddress().addAll(Arrays.asList(address3));
 
-        customerRepository.save(Arrays.asList(custom));
-        addressRepository.save(Arrays.asList(address1, address2));
+        customerRepository.save(Arrays.asList(custom, custom2));
+        addressRepository.save(Arrays.asList(address1, address2, address3));
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 

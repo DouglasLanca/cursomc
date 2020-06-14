@@ -1,6 +1,7 @@
 package com.dlanca.cursomc.domain;
 
 import com.dlanca.cursomc.domain.enums.CustomerType;
+import com.dlanca.cursomc.domain.enums.Role;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -8,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 public class Customer implements Serializable {
@@ -33,12 +35,17 @@ public class Customer implements Serializable {
     @CollectionTable(name = "PHONE_NUMBERS")
     private Set<String> phoneNumbers = new HashSet<>();
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "ROLES")
+    private Set<Integer> roles = new HashSet<>();
+
     @JsonIgnore
     @OneToMany(mappedBy = "customer")
     private List<Order> orders = new ArrayList<>();
 
 
     public Customer() {
+        addRole(Role.CUSTOMER);
     }
 
     public Customer(Integer id, String name, String email, String cpfOrCnpj, CustomerType customerType, String password) {
@@ -48,6 +55,7 @@ public class Customer implements Serializable {
         this.cpfOrCnpj = cpfOrCnpj;
         this.customerType = (customerType == null) ? null : customerType.getCod();
         this.password = password;
+        addRole(Role.CUSTOMER);
     }
 
     public String getPassword() {
@@ -56,6 +64,14 @@ public class Customer implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Set<Role> getRoles() {
+        return roles.stream().map(Role::toEnum).collect(Collectors.toSet());
+    }
+
+    public void addRole(Role role){
+        roles.add(role.getCod());
     }
 
     public static long getSerialVersionUID() {
