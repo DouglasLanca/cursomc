@@ -1,6 +1,8 @@
 package com.dlanca.cursomc.config;
 
 import com.dlanca.cursomc.services.DBService;
+import com.dlanca.cursomc.services.EmailService;
+import com.dlanca.cursomc.services.SmtpEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -28,5 +30,10 @@ public class DevConfig {
 
         dbService.InstantiateTestDataBase();
         return true;
+    }
+
+    @Bean
+    public EmailService emailService(){
+        return new SmtpEmailService();
     }
 }
