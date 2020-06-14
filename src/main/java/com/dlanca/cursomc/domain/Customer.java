@@ -20,6 +20,9 @@ public class Customer implements Serializable {
 
     @Column(unique=true)
     private String email;
+
+    @JsonIgnore
+    private String password;
     private String cpfOrCnpj;
     private Integer customerType;
 
@@ -38,12 +41,21 @@ public class Customer implements Serializable {
     public Customer() {
     }
 
-    public Customer(Integer id, String name, String email, String cpfOrCnpj, CustomerType customerType) {
+    public Customer(Integer id, String name, String email, String cpfOrCnpj, CustomerType customerType, String password) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.cpfOrCnpj = cpfOrCnpj;
         this.customerType = (customerType == null) ? null : customerType.getCod();
+        this.password = password;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public static long getSerialVersionUID() {

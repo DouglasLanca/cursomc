@@ -15,6 +15,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +23,9 @@ import java.util.List;
 
 @Service
 public class CustomerService {
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     private CustomerRepository repo;
@@ -69,11 +73,11 @@ public class CustomerService {
     }
 
     public Customer fromDTO(CustomerDTO objDto){
-        return new Customer(objDto.getId(), objDto.getName(), objDto.getEmail(), null, null);
+        return new Customer(objDto.getId(), objDto.getName(), objDto.getEmail(), null, null, null);
     }
 
     public Customer fromDTO(NewCustomerDTO objDto){
-        Customer customer = new Customer(null, objDto.getName(), objDto.getEmail(), objDto.getCpfOrCnpj(), CustomerType.toEnum(objDto.getCustomerType()));
+        Customer customer = new Customer(null, objDto.getName(), objDto.getEmail(), objDto.getCpfOrCnpj(), CustomerType.toEnum(objDto.getCustomerType()), bCryptPasswordEncoder.encode(objDto.getPassword()));
         City city = new City(objDto.getCityId(), null, null);
         Address address = new Address(null, objDto.getStreet(), objDto.getNumber(), objDto.getComplement(), objDto.getNeighborhood(), objDto.getCep(), customer, city);
         customer.getAddress().add(address);

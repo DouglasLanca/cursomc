@@ -5,6 +5,7 @@ import com.dlanca.cursomc.domain.enums.CustomerType;
 import com.dlanca.cursomc.domain.enums.PaymentStatus;
 import com.dlanca.cursomc.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -13,6 +14,9 @@ import java.util.Arrays;
 
 @Service
 public class DBService {
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     private CityRepository cityRepository;
@@ -100,7 +104,7 @@ public class DBService {
         stateRepository.save(Arrays.asList(s1, s2));
         cityRepository.save(Arrays.asList(c1, c2,c3));
 
-        Customer custom = new Customer(null, "maria", "douglasvandersar@gmail.com", "123123123", CustomerType.PERSON);
+        Customer custom = new Customer(null, "maria", "douglasvandersar@gmail.com", "123123123", CustomerType.PERSON, bCryptPasswordEncoder.encode("123"));
         custom.getPhoneNumbers().addAll(Arrays.asList("0800", "0900"));
 
         Address address1 = new Address(null, "rua dos guaranis", "564", "apto 1203", "centro", "30120040", custom, c1);
