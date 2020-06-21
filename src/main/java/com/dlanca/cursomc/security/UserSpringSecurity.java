@@ -25,7 +25,11 @@ public class UserSpringSecurity implements UserDetails {
         this.authorities = roles.stream().map(x-> new SimpleGrantedAuthority(x.getDescription())).collect(Collectors.toSet());
     }
 
-    private Integer getId(){
+    public boolean hasRole(Role role){
+        return getAuthorities().contains(new SimpleGrantedAuthority(role.getDescription()));
+    }
+
+    public Integer getId(){
         return id;
     }
 

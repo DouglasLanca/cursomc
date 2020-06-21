@@ -4,10 +4,13 @@ import com.dlanca.cursomc.domain.Address;
 import com.dlanca.cursomc.domain.City;
 import com.dlanca.cursomc.domain.Customer;
 import com.dlanca.cursomc.domain.enums.CustomerType;
+import com.dlanca.cursomc.domain.enums.Role;
 import com.dlanca.cursomc.dto.CustomerDTO;
 import com.dlanca.cursomc.dto.NewCustomerDTO;
 import com.dlanca.cursomc.repositories.AddressRepository;
 import com.dlanca.cursomc.repositories.CustomerRepository;
+import com.dlanca.cursomc.security.UserSpringSecurity;
+import com.dlanca.cursomc.services.exceptions.AuthorizationException;
 import com.dlanca.cursomc.services.exceptions.DataIntegrityException;
 import com.dlanca.cursomc.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +38,12 @@ public class CustomerService {
 
 
     public Customer find(Integer id){
+
+        UserSpringSecurity user = UserService.authenticated();
+        if (user ==null || !user.hasRole(Role.ADMIN) && !id.equals(user.getId())){
+            throw new AuthorizationException("Acesso negado");
+        }
+
         Customer obj = repo.findOne(id);
         if (obj == null){
             throw new ObjectNotFoundException("Object not found: "+ id

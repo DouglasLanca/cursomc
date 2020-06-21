@@ -1,21 +1,13 @@
 package com.dlanca.cursomc.resources;
 
-import com.dlanca.cursomc.domain.Category;
-import com.dlanca.cursomc.domain.Order;
 import com.dlanca.cursomc.domain.Product;
-import com.dlanca.cursomc.dto.CategoryDTO;
 import com.dlanca.cursomc.dto.ProductDTO;
 import com.dlanca.cursomc.resources.utils.URL;
-import com.dlanca.cursomc.services.OrderService;
 import com.dlanca.cursomc.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import javax.validation.Valid;
-import java.net.URI;
 
 @RestController
 @RequestMapping(value="/products")
