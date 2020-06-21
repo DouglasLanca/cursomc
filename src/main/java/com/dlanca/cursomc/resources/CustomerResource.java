@@ -7,6 +7,7 @@ import com.dlanca.cursomc.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -36,6 +37,7 @@ public class CustomerResource {
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Customer> delete(@PathVariable Integer id) {
         service.delete(id);
@@ -49,6 +51,7 @@ public class CustomerResource {
         return ResponseEntity.ok().body(listDto);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @RequestMapping(value = "/page", method = RequestMethod.GET)
     public ResponseEntity<Page<CustomerDTO>> findaPage(
             @RequestParam(value = "page", defaultValue = "0") Integer page,
@@ -60,6 +63,7 @@ public class CustomerResource {
         return ResponseEntity.ok().body(listDto);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Void> insert(@Valid @RequestBody NewCustomerDTO objDto){
         Customer obj = service.fromDTO(objDto);
