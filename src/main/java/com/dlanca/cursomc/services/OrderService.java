@@ -8,8 +8,13 @@ import com.dlanca.cursomc.domain.enums.PaymentStatus;
 import com.dlanca.cursomc.repositories.OrderRepository;
 import com.dlanca.cursomc.repositories.PaymentRepository;
 import com.dlanca.cursomc.repositories.RequestedProductRepository;
+import com.dlanca.cursomc.security.UserSpringSecurity;
+import com.dlanca.cursomc.services.exceptions.AuthorizationException;
 import com.dlanca.cursomc.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -72,5 +77,15 @@ public class OrderService {
         emailService.sendOrderConfirmationHtmlEmail(obj);
         System.out.println(obj);
         return obj;
+    }
+
+    public Page<Order> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
+        UserSpringSecurity user = UserService.authenticated();
+        if (user == null){
+            throw new AuthorizationException("Acesso negado");
+        }
+        PageRequest pageRequest = new PageRequest(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
+        Customer customer = customerService.find(user.getId());
+        return repo.findByCustomer(customer, pageRequest);
     }
 }
