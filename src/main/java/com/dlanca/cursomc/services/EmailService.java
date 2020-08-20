@@ -1,6 +1,5 @@
 package com.dlanca.cursomc.services;
 
-import com.dlanca.cursomc.domain.Customer;
 import com.dlanca.cursomc.domain.Order;
 import org.springframework.mail.SimpleMailMessage;
 
@@ -15,6 +14,4 @@ public interface EmailService {
     void sendOrderConfirmationHtmlEmail(Order obj);
 
     void sendHtmlEmail(MimeMessage msg);
-
-    void sendNewPasswordEmail(Customer customer, String newPass);
 }
